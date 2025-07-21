@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>4조 2교대 연차 계산기</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 50px;
+      background-color: #f9f9f9;
+    }
+    h1 {
+      color: #333;
+    }
+    label {
+      display: block;
+      margin-top: 20px;
+    }
+    input, select, button {
+      padding: 10px;
+      font-size: 16px;
+      width: 100%;
+      margin-top: 5px;
+    }
+    #result {
+      margin-top: 30px;
+      font-weight: bold;
+      color: #007acc;
+    }
+  </style>
+</head>
+<body>
+  <h1>4조 2교대 연차 계산기</h1>
+
+  <label>연차 시작일:</label>
+  <input type="date" id="startDate">
+
+  <label>연차 종료일:</label>
+  <input type="date" id="endDate">
+
+  <label>교대 패턴:</label>
+  <select id="pattern">
+    <option value="day-night-off-rest">주-야-비-휴</option>
+    <option value="night-off-rest-day">야-비-휴-주</option>
+  </select>
+
+  <button onclick="calculateLeave()">연차 차감일 계산</button>
+
+  <div id="result"></div>
+
+  <script>
+    function calculateLeave() {
+      const start = new Date(document.getElementById('startDate').value);
+      const end = new Date(document.getElementById('endDate').value);
+      const pattern = document.getElementById('pattern').value;
+
+      if (!start || !end || start > end) {
+        document.getElementById('result').innerText = '날짜를 올바르게 입력해주세요.';
+        return;
+      }
+
+      const diffDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
+      let leaveCount = 0;
+
+      // 패턴별 연차 차감 로직 (간단화된 버전)
+      if (pattern === 'day-night-off-rest') {
+        leaveCount = diffDays - countRestDays(start, end, ['off', 'rest']);
+      } else if (pattern === 'night-off-rest-day') {
+        leaveCount = diffDays - countRestDays(start, end, ['off', 'rest']);
+      }
+
+      document.getElementById('result').innerText = `총 ${leaveCount}일 연차가 차감됩니다.`;
+    }
+
+    function countRestDays(start, end, restDays) {
+      // 여기는 더 정교한 패턴이 필요함 — 실제 로직 구현해줄게!
+      return 0; // 임시
+    }
+  </script>
+</body>
+</html>
